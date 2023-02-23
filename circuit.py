@@ -12,9 +12,9 @@ def hamiltonian(coupling_strength=0.25, field_strength=1):
            qml.PauliX(0) @ qml.PauliX(1),
            qml.PauliY(0) @ qml.PauliY(1),
            qml.PauliZ(0) @ qml.PauliZ(1),
-           qml.PauliX(0) @ qml.PauliX(1),
-           qml.PauliY(0) @ qml.PauliY(1),
-           qml.PauliZ(0) @ qml.PauliZ(1),
+           qml.PauliX(1) @ qml.PauliX(2),
+           qml.PauliY(1) @ qml.PauliY(2),
+           qml.PauliZ(1) @ qml.PauliZ(2),
            ]
     return qml.Hamiltonian(coeffs, obs)
 
