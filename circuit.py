@@ -3,7 +3,7 @@ import pennylane as qml
 
 def hamiltonian(coupling_strength=0.25, field_strength=1):
     coefficients = [-field_strength]*3
-    coefficients += [coupling_strength]*6
+    coefficients += [coupling_strength]*2
 
     obs = [qml.PauliX(0), qml.PauliX(1), qml.PauliX(2),
            qml.PauliZ(0) @ qml.PauliZ(1),
