@@ -24,3 +24,8 @@ correct ML tool, we probably won't run into this problem. But, if you are follow
 pennylane, then JAX, then PyTorch, to work around this error I then installed chardet `pip install chardet` and
 the import error above goes away. 
 
+Installing ipython, jupyterlab and matplotlib (conda install).
+
+##### 5pm Friday
+
+Using 'autograd' I have something that seems to be working!  Use the `test_circuit.ipynb` notebook. 
