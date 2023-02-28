@@ -7,3 +7,5 @@ zstd
 dill
 boto3
 pennylane-qiskit
+ipympl
+
