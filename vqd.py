@@ -51,16 +51,11 @@ class VQD:
     def __init__(self, interface, total_time, delta_time,
                  max_iterations, cost_threshold, n_qubits=3, shots=800,
                  cost_function='fidelity', optimization_step_size=0.1,
-                 device_type='default.qubit'):
+                 device_type='default.qubit', predefined_state_device=None, predefined_observable_device=None):
         """
 
-        :param interface:
-        :param total_time:
-        :param delta_time:
-        :param max_iterations:
-        :param cost_threshold:
-        :param n_qubits:
-        :param shots:
+        If predefined_state_device or predefined_observable_device are defined, they are expected to be
+        pennylane.device objects
         """
         assert n_qubits == 3
 
@@ -75,6 +70,8 @@ class VQD:
         self.sample_device = None
         self.device_type = device_type
         self.interface = None
+        self.predefined_state_device = predefined_state_device
+        self.predefined_observable_device = predefined_observable_device
 
         self.qnode_three_spins_forward_state = None
         self.qnode_three_spins_current_state = None
@@ -124,9 +121,16 @@ class VQD:
         else:
             raise NotImplementedError(f'interface {interface} not supported')
 
-        # dev = qml.device("default.qubit.jax", wires=range(3)) raises TypeError with default.qubit.jax
-        self.state_device = qml.device(self.device_type, wires=range(3))
-        self.sample_device = qml.device(self.device_type, wires=range(3), shots=self.shots)
+        if self.predefined_state_device:
+            self.state_device = self.predefined_state_device
+        else:
+            # dev = qml.device("default.qubit.jax", wires=range(3)) raises TypeError with default.qubit.jax
+            self.state_device = qml.device(self.device_type, wires=range(3))
+
+        if self.predefined_observable_device:
+            self.sample_device = self.predefined_observable_device
+        else:
+            self.sample_device = qml.device(self.device_type, wires=range(3), shots=self.shots)
 
         self.qnode_three_spins_forward_state = qml.QNode(three_spins_forward_state, self.state_device, interface=interface)
         self.qnode_three_spins_current_state = qml.QNode(three_spins_current_state, self.state_device, interface=interface)

@@ -5,4 +5,5 @@ pytorch
 matplotlib
 zstd
 dill
-
+boto3
+pennylane-qiskit
