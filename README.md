@@ -7,6 +7,12 @@ for multiple coupled spins in a transverse uniform magnetic field using Pennylan
 We plan to test and study the fidelity (our cost function) at each time step, as well as Pauli spin 
 observables and compare our results to the published outcomes. 
 
+Our conclusions are found in [quantumx_uw_team_writeup.pdf](quantumx_uw_team_writeup.pdf).
+
+Main sections of the code are circuit.py, vqd.py and test_vqd.ipynb. 
+
+
+
 #### Notes
 
 Pytorch does not yet support Python 3.11. Using Python 3.10.9.
