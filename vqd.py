@@ -78,7 +78,7 @@ class VQD:
         self.qnode_three_spins_observables = None
         self.current_params = None
         self.previous_params = None
-        self.previous_state = None
+        self.current_params_plus_time_state = None
         self.set_interface(interface)
 
         if cost_function == 'fidelity':
@@ -140,16 +140,16 @@ class VQD:
         self.qnode_three_spins_observables_sample_sigz = qml.QNode(three_spins_observables_samples_sigz, self.sample_device, interface=interface)
 
     def _qml_fidelity_cost_function(self, params):
-        self.forward_state = self.qnode_three_spins_forward_state(params, self.delta_time)
+        self.forward_state = self.qnode_three_spins_current_state(params)
 
-        fidelity = qml.math.fidelity(self.previous_state, self.forward_state)
+        fidelity = qml.math.fidelity(self.current_params_plus_time_state, self.forward_state)
         return 1 - fidelity
 
     def run_optimization(self, compute_observables=True):
 
         self.current_params = self.reset_params()
         self.previous_params = self.reset_params()
-        self.previous_state = self.qnode_three_spins_current_state(self.previous_params)
+        self.current_params_plus_time_state = self.qnode_three_spins_forward_state(self.previous_params, self.delta_time)
 
         opt = qml.GradientDescentOptimizer(stepsize=self.optimization_step_size)
 
@@ -183,7 +183,7 @@ class VQD:
                     failed_to_converge_times[current_time] = recorded_costs[-1]
 
                 # prepare for next time step
-                self.previous_state = self.qnode_three_spins_current_state(recorded_params[-1])
+                self.current_params_plus_time_state = self.qnode_three_spins_forward_state(recorded_params[-1], self.delta_time)
 
                 # record results
                 time.append(current_time)
